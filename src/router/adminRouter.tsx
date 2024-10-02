@@ -1,13 +1,13 @@
 import {lazy, Suspense} from "react";
-import LoadingPage from "../../LoadingPage.tsx";
+import LoadingPage from "../pages/LoadingPage.tsx";
 
 const Loading = <LoadingPage></LoadingPage>
 
-const AdminIndex = lazy(() => import("../../admin/AdminIndex.tsx"))
-const AdminContentList = lazy(() => import('../../admin/AdminContentListPage.tsx'))
-const AdminContentAdd = lazy(() => import('../../admin/AdminContentAddPage.tsx'))
-const AdminContentModify = lazy(() => import('../../admin/AdminContentModifyPage.tsx'))
-const AdminChart = lazy(() => import('../../admin/AdminChartPage.tsx'))
+const AdminIndex = lazy(() => import("../pages/admin/AdminIndex.tsx"))
+const AdminContentList = lazy(() => import('../pages/admin/AdminContentListPage.tsx'))
+const AdminContentAdd = lazy(() => import('../pages/admin/AdminContentAddPage.tsx'))
+const AdminContentModify = lazy(() => import('../pages/admin/AdminContentModifyPage.tsx'))
+const AdminChart = lazy(() => import('../pages/admin/AdminChartPage.tsx'))
 
 const adminRouter = {
     path: "/admin",
