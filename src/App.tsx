@@ -1,11 +1,11 @@
-import './App.css'
-import ContentIndex from "./pages/contents/ContentIndex.tsx";
+
+import AdminIndex from "./pages/admin/AdminIndex.tsx";
 
 function App() {
 
   return (
     <>
-        <ContentIndex></ContentIndex>
+        <AdminIndex></AdminIndex>
     </>
   )
 }
