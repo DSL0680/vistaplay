@@ -1,4 +1,5 @@
 import axios from "axios";
+import {IWatch} from "../types/watch.ts";
 
 
 const host: string = 'http://localhost:8091/api/todo';
@@ -19,14 +20,14 @@ export const postWatch = async (watch: IWatch): Promise<number> => {
 };
 
 // 특정 감상 목록 가져오기 (GET)
-export const getOneWatch = async (mno: number): Promise<IWatch> => {
-    const res = await axios.get(`${host}/todo/${mno}`);
+export const getOneWatch = async (tno: number): Promise<IWatch> => {
+    const res = await axios.get(`${host}/todo/${tno}`);
     return res.data;
 };
 
 // 감상 목록 수정 (PUT)
 export const putWatch = async (watch: IWatch): Promise<IWatch> => {
-    const res = await axios.put(`${host}/todo/${watch.mno}`, watch);
+    const res = await axios.put(`${host}/todo/${watch.tno}`, watch);
     return res.data;
 };
 
