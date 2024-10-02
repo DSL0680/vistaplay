@@ -1,9 +1,8 @@
+import AdminBasicLayout from "../../layout/AdminBasicLayout.tsx";
 
 function AdminIndex() {
     return (
-        <div>
-            <h1>Admin Index</h1>
-        </div>
+        <AdminBasicLayout></AdminBasicLayout>
     );
 }
 
