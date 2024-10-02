@@ -1,60 +1,112 @@
-import React, { useState } from 'react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'; // 햄버거 메뉴 아이콘과 닫기 아이콘 사용
+import React, {ReactElement, useState} from "react";
+import {DocumentTextIcon, PlusCircleIcon} from "@heroicons/react/solid";
+import {Link} from "react-router-dom";
 
-function AdminBasicLayout() {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+function AdminBasicLayout({children}: {children: React.ReactNode}): ReactElement {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
-        <div className="min-h-screen flex">
-            {/* Mobile Menu Button */}
-            <div className="lg:hidden p-4">
-                <button
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                    className="text-gray-800 focus:outline-none"
-                >
-                    {sidebarOpen ? (
-                        <XMarkIcon className="h-8 w-8" />
-                    ) : (
-                        <Bars3Icon className="h-8 w-8" />
+        <div>
+            <div className="min-h-screen flex flex-col h-screen">
+                <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+                        {/* Logo */}
+                        <div className="flex-shrink-0">
+                            <Link to="/" className="text-2xl font-bold text-blue-600">
+                                MyTODO
+                            </Link>
+                        </div>
+
+                    </div>
+
+
+                    {/* Hamburger Menu Button for Mobile */}
+                    <button
+                        onClick={toggleMenu}
+                        className="md:hidden text-gray-700 hover:text-blue-500 focus:outline-none"
+                        aria-label="Toggle navigation"
+                    >
+                        <svg
+                            className={`h-6 w-6 transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`}
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d={isOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+                            />
+                        </svg>
+                    </button>
+
+                    {/* Mobile Menu */}
+                    {isOpen && (
+                        <div
+                            className={`md:hidden bg-white shadow-md overflow-hidden transition-all duration-500 ease-in-out transform origin-top ${
+                                isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0'
+                            }`}
+                        >
+                            <nav className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                                <Link to="/"
+                                      className="block text-gray-700 hover:text-blue-500 px-3 py-2 rounded-md text-base font-medium">
+                                    Home
+                                </Link>
+                                <Link to="/contact"
+                                      className="block text-gray-700 hover:text-blue-500 px-3 py-2 rounded-md text-base font-medium">
+                                    Contact
+                                </Link>
+                                <Link to="/todo"
+                                      className="block text-gray-700 hover:text-blue-500 px-3 py-2 rounded-md text-base font-medium">
+                                    Todo
+                                </Link>
+                                <Link to="/product/add"
+                                      className="block text-gray-700 hover:text-blue-500 px-3 py-2 rounded-md text-base font-medium">
+                                    Product
+                                </Link>
+                            </nav>
+                        </div>
                     )}
-                </button>
-            </div>
+                </header>
 
-            {/* Sidebar */}
-            <aside
-                className={`fixed inset-y-0 left-0 transform lg:transform-none transition-transform duration-300 ease-in-out z-30 bg-gray-800 text-white w-64 lg:w-64 lg:relative ${
-                    sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                }`}
-            >
-                <div className="flex items-center justify-center p-6">
-                    {/* 로고 */}
-                    <img src="/path-to-your-logo.png" alt="Logo" className="h-12 w-auto" />
+                {/* Main Content */}
+                <div className="flex-1 flex h-full overflow-hidden">
+                    {/* Aside Section */}
+                        <aside
+                            className="w-64 bg-gradient-to-b from-blue-600 to-blue-400 text-white p-6 hidden md:flex flex-col h-full" // h-full 유지
+                        >
+                            <h2 className="text-xl font-semibold mb-6">Todo</h2>
+                            <nav className="space-y-4">
+                                <Link to="/todo/list"
+                                      className="flex items-center space-x-2 p-2 hover:bg-blue-500 rounded-md">
+                                    <DocumentTextIcon className="h-5 w-5"/>
+                                    <span>List</span>
+                                </Link>
+                                <Link to="/todo/add"
+                                      className="flex items-center space-x-2 p-2 hover:bg-blue-500 rounded-md">
+                                    <PlusCircleIcon className="h-5 w-5"/>
+                                    <span>Add</span>
+                                </Link>
+                            </nav>
+                        </aside>
+
+
+                    {/* Main Section */}
+                    <main className="flex-1 bg-gray-100 p-6 overflow-auto">
+                        {/* Page Title */}
+
+                        {children}
+                    </main>
                 </div>
-
-                {/* Sidebar navigation */}
-                <nav className="flex-1 px-4 py-6">
-                    <a href="#" className="block py-2.5 px-4 rounded hover:bg-gray-700">
-                        콘텐츠 관리
-                    </a>
-                    <a href="#" className="block py-2.5 px-4 rounded hover:bg-gray-700">
-                        통계
-                    </a>
-                </nav>
-            </aside>
-
-            {/* Main content */}
-            <div className="flex-1 bg-gray-100 p-6 lg:ml-64">
-                <h1 className="text-xl font-bold">관리자 메인 페이지</h1>
-                {/* 메인 콘텐츠가 여기에 들어갈 예정 */}
             </div>
-
-            {/* 배경 클릭 시 사이드바 닫기 (모바일에서만) */}
-            {sidebarOpen && (
-                <div
-                    className="fixed inset-0 bg-black opacity-50 lg:hidden"
-                    onClick={() => setSidebarOpen(false)}
-                />
-            )}
         </div>
     );
 }

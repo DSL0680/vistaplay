@@ -1,11 +1,9 @@
-
-import AdminIndex from "./pages/admin/AdminIndex.tsx";
+import './App.css'
 
 function App() {
 
   return (
     <>
-        <AdminIndex></AdminIndex>
     </>
   )
 }
