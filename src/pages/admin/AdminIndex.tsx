@@ -4,7 +4,6 @@ import {Outlet} from "react-router-dom";
 function AdminIndex() {
     return (
         <AdminBasicLayout>
-            <h1>Admin Index</h1>
             <Outlet></Outlet>
         </AdminBasicLayout>
     );

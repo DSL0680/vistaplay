@@ -5,6 +5,7 @@ export interface IContent {
     pname: string,
     price: number,
     keyword: string,
+    uploadFileNames: [],
 }
 
 export interface IPageReseponse {
