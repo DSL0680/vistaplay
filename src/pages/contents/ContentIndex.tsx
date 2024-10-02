@@ -1,9 +1,10 @@
+import ContentBasicLayout from "../../layout/ContentBasicLayout.tsx";
 
 function ContentIndex() {
     return (
-        <div>
+        <ContentBasicLayout>
             <h1>Content Index</h1>
-        </div>
+        </ContentBasicLayout>
     );
 }
 
