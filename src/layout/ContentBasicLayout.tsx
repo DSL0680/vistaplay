@@ -68,13 +68,13 @@ function ContentBasicLayout({ children }: { children: React.ReactNode }): ReactE
 
                         <button
                             type="button"
-                            className="text-sm font-semibold leading-6 text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700"
+                            className="text-sm font-semibold leading-6 text-white bg-blue-800 px-4 py-2 rounded-lg hover:bg-blue-700"
                         >
                             시청기록
                         </button>
                         <button
                             type="button"
-                            className="text-sm font-semibold leading-6 text-indigo-600 px-4 py-2 border border-indigo-600 rounded-lg hover:bg-indigo-100"
+                            className="text-sm font-semibold leading-6 text-blue-800 px-4 py-2 border border-blue-800 rounded-lg hover:bg-blue-100"
                         >
                             찜 목록
                         </button>

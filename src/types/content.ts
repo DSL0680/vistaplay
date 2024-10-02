@@ -7,7 +7,7 @@ export interface IContent {
     keyword: string,
 }
 
-export interface IPageReeponse {
+export interface IPageReseponse {
     dtoList: IContent[],
     number: number,
     pageNumList: number[],
