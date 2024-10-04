@@ -16,11 +16,12 @@ export const postAdd = async (formData: FormData): Promise<number> => {
 };
 
 // 콘텐츠 리스트 조회 (GET)
-export const getContentList = async (page?: number, size?: number): Promise<IPageReseponse> => {
+export const getContentList = async (page?: number, size?: number, keyword?: string): Promise<IPageReseponse> => {
     const pageValue: number = page || 1; // 기본값 1
     const sizeValue: number = size || 10; // 기본값 10
+    const keyValue: string = keyword || ''; // 기본값 ''
 
-    const res = await axios.get<IPageReseponse>(`${host}/list?page=${pageValue}&size=${sizeValue}`);
+    const res = await axios.get<IPageReseponse>(`${host}/list?page=${pageValue}&size=${sizeValue}&keyword=${keyValue}`);
     return res.data;
 };
 
