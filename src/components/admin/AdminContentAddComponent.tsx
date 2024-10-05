@@ -26,7 +26,7 @@ function AdminContentAddComponent() {
         const { name, value } = e.target;
 
         if (name === 'keyword') {
-            const [type, genre] = value.split('-');  // 타입과 장르 분리
+            const [type, genre] = value.split('-');
             setContent(prevContent => ({
                 ...prevContent,
                 keyword: value,
@@ -34,7 +34,7 @@ function AdminContentAddComponent() {
                 genre
             }));
         } else if (name === 'pdesc') {
-            const [ex, link] = value.split(',');  // 타입과 장르 분리
+            const [ex, link] = value.split(',');
             setContent(prevContent => ({
                 ...prevContent,
                 pdesc: value,
@@ -51,11 +51,11 @@ function AdminContentAddComponent() {
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            // 선택된 모든 파일을 배열로 변환하여 files에 추가
+
             const filesArray = Array.from(e.target.files);
             setContent(prevContent => ({
                 ...prevContent,
-                files: [...prevContent.files, ...filesArray], // 기존 파일과 새로 선택한 파일을 합침
+                files: [...prevContent.files, ...filesArray],
             }));
 
             console.log("Selected files:", filesArray);
@@ -77,7 +77,7 @@ function AdminContentAddComponent() {
             pname: content.pname,
             pdesc: content.pdesc,
             keyword: content.keyword,
-            files: content.files // 현재 상태의 파일 확인
+            files: content.files
         });
 
         postAdd(formData)
@@ -91,7 +91,7 @@ function AdminContentAddComponent() {
             });
     };
 
-    // 결과 모달 닫기 핸들러
+
     const closeCallback = () => {
         setResult('');
         setContent({ ...initState });
