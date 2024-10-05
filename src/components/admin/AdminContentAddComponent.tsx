@@ -116,9 +116,8 @@ function AdminContentAddComponent() {
             />
 
             <label className="text-sm font-semibold text-gray-700">작품 설명 & 예고편 링크</label>
-            <input
+            <textarea
                 className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
-                type='text'
                 name='pdesc'
                 placeholder="작품 설명 & 예고편 링크"
                 value={content.pdesc}
