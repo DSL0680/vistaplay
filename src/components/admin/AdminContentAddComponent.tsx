@@ -132,21 +132,21 @@ function AdminContentAddComponent() {
                 onChange={handleChange}
             >
                 <option value="">선택</option>
-                <option value="movie-action">영화 - 액션</option>
-                <option value="movie-comedy">영화 - 코미디</option>
-                <option value="movie-horror">영화 - 공포</option>
-                <option value="movie-family">영화 - 가족</option>
-                <option value="drama-romance">드라마 - 로맨스</option>
-                <option value="drama-adventure">드라마 - 모험</option>
-                <option value="drama-crime">드라마 - 범죄</option>
-                <option value="variety-music">예능 - 음악</option>
-                <option value="variety-thriller">예능 - 스릴러</option>
-                <option value="anime-sci-fi">애니메이션 - 공상과학</option>
-                <option value="anime-fantasy">애니메이션 - 판타지</option>
-                <option value="anime-war">애니메이션 - 전쟁</option>
-                <option value="documentary-action">다큐멘터리 - 액션</option>
-                <option value="documentary-comedy">다큐멘터리 - 코미디</option>
-                <option value="documentary-thriller">다큐멘터리 - 스릴러</option>
+                <option value="영화 - 액션">영화 - 액션</option>
+                <option value="영화 - 코미디">영화 - 코미디</option>
+                <option value="영화 - 공포">영화 - 공포</option>
+                <option value="영화 - 가족">영화 - 가족</option>
+                <option value="드라마 - 로맨스">드라마 - 로맨스</option>
+                <option value="드라마 - 모험">드라마 - 모험</option>
+                <option value="드라마 - 범죄">드라마 - 범죄</option>
+                <option value="예능 - 음악">예능 - 음악</option>
+                <option value="예능 - 스릴러">예능 - 스릴러</option>
+                <option value="애니메이션 - 공상과학">애니메이션 - 공상과학</option>
+                <option value="애니메이션 - 판타지">애니메이션 - 판타지</option>
+                <option value="애니메이션 - 전쟁">애니메이션 - 전쟁</option>
+                <option value="다큐멘터리 - 액션">다큐멘터리 - 액션</option>
+                <option value="다큐멘터리 - 코미디">다큐멘터리 - 코미디</option>
+                <option value="다큐멘터리 - 스릴러">다큐멘터리 - 스릴러</option>
             </select>
 
             <label className="text-sm font-semibold text-gray-700">Upload Image</label>
