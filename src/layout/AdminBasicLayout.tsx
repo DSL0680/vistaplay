@@ -85,7 +85,7 @@ function AdminBasicLayout({children}: {children: React.ReactNode}): ReactElement
                         >
                             <h2 className="text-xl font-semibold mb-6">Todo</h2>
                             <nav className="space-y-4">
-                                <Link to="/todo/list"
+                                <Link to="/list"
                                       className="flex items-center space-x-2 p-2 hover:bg-blue-500 rounded-md">
                                     <DocumentTextIcon className="h-5 w-5"/>
                                     <span>List</span>
