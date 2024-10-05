@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IContent, IPageReeponse } from "../types/content.ts";
+import {IContent, IPageResponse} from "../types/content.ts";
 
 const host = 'http://localhost:8091/api/products';
 
@@ -16,11 +16,11 @@ export const postAdd = async (formData: FormData): Promise<number> => {
 };
 
 // 콘텐츠 리스트 조회 (GET)
-export const getContentList = async (page?: number, size?: number): Promise<IPageReeponse> => {
+export const getContentList = async (page?: number, size?: number): Promise<IPageResponse> => {
     const pageValue: number = page || 1; // 기본값 1
     const sizeValue: number = size || 10; // 기본값 10
 
-    const res = await axios.get<IPageReeponse>(`${host}/list?page=${pageValue}&size=${sizeValue}`);
+    const res = await axios.get<IPageResponse>(`${host}/list?page=${pageValue}&size=${sizeValue}`);
     return res.data;
 };
 
