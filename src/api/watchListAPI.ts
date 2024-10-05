@@ -1,5 +1,6 @@
 import axios from "axios";
 import {IWatch} from "../types/watch.ts";
+import {IPageResponse} from "../types/content.ts";
 
 
 const host: string = 'http://localhost:8091/api/todo';
