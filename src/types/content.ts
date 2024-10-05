@@ -1,13 +1,16 @@
 export interface IContent {
-    pno: number,
-    del_flag: boolean,
+
+    pno?: number,
+    del_flag?: boolean,
     pdesc: string,
     pname: string,
-    price: number,
+    price?: number,
     keyword: string,
+    files: File[],
+    uploadFileNames: string[]
 }
 
-export interface IPageReeponse {
+export interface IPageResponse {
     dtoList: IContent[],
     number: number,
     pageNumList: number[],
