@@ -1,9 +1,10 @@
+import ContentContextComponent from "../../components/common/ContentContextComponent.tsx";
 
 
 function ContentContextPage() {
     return (
         <div>
-            <h1>Content Context Page</h1>
+            <ContentContextComponent />
         </div>
     );
 }

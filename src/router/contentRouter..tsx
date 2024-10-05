@@ -22,7 +22,7 @@ const contentRouter = createBrowserRouter([
                 element: <Suspense fallback={Loading}><ContentList/></Suspense>
             },
             {
-                path: "context",
+                path: "context/:pno",
                 element: <Suspense fallback={Loading}><ContentContext/></Suspense>
             },
             {
