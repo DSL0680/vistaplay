@@ -30,7 +30,7 @@ function ContentListComponent() {
     const fetchContentList = () => {
         setLoading(true);
         getContentList(page, size).then((data) => {
-            console.log(data); // API로부터 받아온 데이터 확인
+            console.log(data);
             setPageResponse(data);
             setTimeout(() => {
                 setLoading(false);
@@ -71,7 +71,7 @@ function ContentListComponent() {
                                 <img
                                     src={`http://localhost:8091/api/products/view/${fileName}`}
                                     alt={fileName}
-                                    className="w-24 h-24 object-cover rounded-md shadow-sm" // CSS 스타일 추가
+                                    className="w-24 h-24 object-cover rounded-md shadow-sm"
                                 />
                             </div>
                         ))
