@@ -1,6 +1,7 @@
 import {FC, useEffect, useRef} from "react";
 import LoadingComponent from "../common/LoadingComponent.tsx";
 
+
 interface InfiniteScrollProps {
     loading: boolean;            // 로딩 상태
     fetchMore: () => void;       // 추가 데이터를 가져오는 함수
@@ -10,6 +11,7 @@ const InfiniteScrollComponent: FC<InfiniteScrollProps> = ({ loading, fetchMore }
     const loader = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
+
         const observer = new IntersectionObserver(
             (entries) => {
                 const target = entries[0];
