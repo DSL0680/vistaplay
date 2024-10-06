@@ -25,10 +25,7 @@ function ContentListComponent() {
 
     const queryStr = createSearchParams({ page: String(page), size: String(size) });
 
-
     const fetchContentList = async (page: number) => {
-
-
         setLoading(true);
         try {
             const data = await getContentList(page, size);
@@ -56,32 +53,22 @@ function ContentListComponent() {
         const { pno, pname, price } = content;
 
         return (
-            <li
+            <div
                 key={pno}
                 onClick={() => moveToRead(pno)}
-                className="border p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 cursor-pointer bg-white"
+                className="border p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 cursor-pointer bg-white flex flex-col justify-between"
             >
-                <div className="text-lg font-semibold text-gray-800">{pname}</div>
 
-                <div className="text-sm text-gray-600 mt-2">조회수: {price}</div>
-
-                <div className="flex flex-wrap mt-4">
-                    {content.uploadFileNames.length > 0 ? (
-                        content.uploadFileNames.map((fileName, index) => (
-                            <div key={index} className="m-2">
-                                <img
-                                    src={`http://localhost:8091/api/products/view/${fileName}`}
-                                    alt={fileName}
-                                    className="w-24 h-24 object-cover rounded-md shadow-sm"
-                                />
-                            </div>
-                        ))
-                    ) : (
-                        <div className="text-sm text-gray-500">No files uploaded</div>
-                    )}
+                <div className="flex justify-center items-center mb-4">
+                    <img
+                        src={`http://localhost:8091/api/products/view/${content.uploadFileNames[0]}`}
+                        alt={pname}
+                        className="w-24 h-24 object-cover rounded-md"
+                    />
                 </div>
-
-            </li>
+                <div className="text-lg font-semibold text-center">{pname}</div>
+                <div className="text-center text-sm text-gray-600 mt-2">조회수: {price}</div>
+            </div>
         );
     });
 
@@ -91,11 +78,11 @@ function ContentListComponent() {
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
-            {loading && <LoadingComponent/>}
+            {loading && <LoadingComponent />}
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Content List</h2>
-            <ul className="space-y-4">
+            <div className="grid grid-cols-5 gap-4">
                 {listLI}
-            </ul>
+            </div>
             <div className="text-center mt-6">
                 <button
                     onClick={fetchMoreContent}
@@ -104,8 +91,7 @@ function ContentListComponent() {
                     더보기
                 </button>
             </div>
-            <InfiniteScrollComponent loading={loading} fetchMore={fetchMoreContent}/>
-
+            <InfiniteScrollComponent loading={loading} fetchMore={fetchMoreContent} />
         </div>
     );
 }
