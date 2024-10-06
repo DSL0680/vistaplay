@@ -32,7 +32,7 @@ function ContentListComponent() {
             const data = await getContentList(page, size);
             setPageResponse((prev) => ({
                 ...data,
-                dtoList: [...prev.dtoList, ...data.dtoList], // 이전 데이터에 새 데이터를 추가
+                dtoList: [...prev.dtoList, ...data.dtoList]
             }));
         } finally {
             setLoading(false);
@@ -40,7 +40,7 @@ function ContentListComponent() {
     };
 
     useEffect(() => {
-        fetchContentList(page); // 페이지가 변경될 때마다 새로운 콘텐츠를 가져옴
+        fetchContentList(page);
     }, [page]);
 
     const moveToRead = (pno: number | undefined) => {
@@ -78,14 +78,13 @@ function ContentListComponent() {
     });
 
     const fetchMoreContent = () => {
-        setPage((prev) => prev + 1); // 페이지 증가
+        setPage((prev) => prev + 1);
     };
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
             {loading && <LoadingComponent />}
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Content List</h2>
-            {/* 검색 입력 필드 추가 */}
             <input
                 type="text"
                 placeholder="제목 검색"
