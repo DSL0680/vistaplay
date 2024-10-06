@@ -3,7 +3,6 @@ import AdminContentAddComponent from "../../components/admin/AdminContentAddComp
 function AdminContentAddPage() {
     return (
         <div>
-            <h1>Admin Content Add Page</h1>
             <AdminContentAddComponent/>
         </div>
     );
