@@ -18,7 +18,7 @@ function AdminBasicLayout({children}: {children: React.ReactNode}): ReactElement
                         {/* Logo */}
                         <div className="flex-shrink-0">
                             <Link to="/" className="text-2xl font-bold text-blue-600">
-                                MyTODO
+                                ADMIN
                             </Link>
                         </div>
 

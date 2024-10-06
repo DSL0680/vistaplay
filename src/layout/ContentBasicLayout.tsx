@@ -30,13 +30,13 @@ function ContentBasicLayout({children}: {children: React.ReactNode}): ReactEleme
                             <button type="button"
                                     className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
                                     aria-expanded="false">
-                                Product
+                                영화
                             </button>
                         </div>
 
-                        <a href="/admin/add" className="text-sm font-semibold leading-6 text-gray-900">Features</a>
-                        <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
-                        <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Company</a>
+                        <a href="/admin/add" className="text-sm font-semibold leading-6 text-gray-900">드라마</a>
+                        <a href="#" className="text-sm font-semibold leading-6 text-gray-900">예능</a>
+                        <a href="#" className="text-sm font-semibold leading-6 text-gray-900">애니메이션</a>
                     </div>
 
                     {/* 검색창을 메뉴 오른쪽에 추가 */}
@@ -52,13 +52,13 @@ function ContentBasicLayout({children}: {children: React.ReactNode}): ReactEleme
                             type="button"
                             className="text-sm font-semibold leading-6 text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700"
                         >
-                            Sign Up
+                            시청기록
                         </button>
                         <button
                             type="button"
                             className="text-sm font-semibold leading-6 text-indigo-600 px-4 py-2 border border-indigo-600 rounded-lg hover:bg-indigo-100"
                         >
-                            Contact Us
+                            찜 목록
                         </button>
                     </div>
                 </nav>
