@@ -3,7 +3,6 @@ import ContentListComponent from "../../components/contents/ContentListComponent
 function ContentListPage() {
     return (
         <div>
-            <h1>Content List Page</h1>
             <ContentListComponent/>
         </div>
     );
