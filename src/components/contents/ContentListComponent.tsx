@@ -22,6 +22,7 @@ function ContentListComponent() {
 
     const [page, setPage] = useState<number>(1);
     const [size] = useState<number>(10);
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
     const queryStr = createSearchParams({ page: String(page), size: String(size) });
 
@@ -31,7 +32,7 @@ function ContentListComponent() {
             const data = await getContentList(page, size);
             setPageResponse((prev) => ({
                 ...data,
-                dtoList: [...prev.dtoList, ...data.dtoList],  // 이전 데이터에 새 데이터를 추가
+                dtoList: [...prev.dtoList, ...data.dtoList], // 이전 데이터에 새 데이터를 추가
             }));
         } finally {
             setLoading(false);
@@ -39,7 +40,7 @@ function ContentListComponent() {
     };
 
     useEffect(() => {
-        fetchContentList(page);  // 페이지가 변경될 때마다 새로운 콘텐츠를 가져옴
+        fetchContentList(page); // 페이지가 변경될 때마다 새로운 콘텐츠를 가져옴
     }, [page]);
 
     const moveToRead = (pno: number | undefined) => {
@@ -49,7 +50,12 @@ function ContentListComponent() {
         });
     };
 
-    const listLI = pageResponse.dtoList.map((content: IContent) => {
+    // 제목 검색 필터링
+    const filteredList = pageResponse.dtoList.filter(content =>
+        content.pname.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const listLI = filteredList.map((content: IContent) => {
         const { pno, pname, price } = content;
 
         return (
@@ -58,7 +64,6 @@ function ContentListComponent() {
                 onClick={() => moveToRead(pno)}
                 className="border p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 cursor-pointer bg-white flex flex-col justify-between"
             >
-
                 <div className="flex justify-center items-center mb-4">
                     <img
                         src={`http://localhost:8091/api/products/view/${content.uploadFileNames[0]}`}
@@ -73,13 +78,21 @@ function ContentListComponent() {
     });
 
     const fetchMoreContent = () => {
-        setPage((prev) => prev + 1);  // 페이지 증가
+        setPage((prev) => prev + 1); // 페이지 증가
     };
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
             {loading && <LoadingComponent />}
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Content List</h2>
+            {/* 검색 입력 필드 추가 */}
+            <input
+                type="text"
+                placeholder="제목 검색"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="p-2 border rounded mb-4 w-full"
+            />
             <div className="grid grid-cols-5 gap-4">
                 {listLI}
             </div>
