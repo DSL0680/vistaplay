@@ -1,8 +1,9 @@
+import WatchListComponent from "../../components/contents/WatchListComponent.tsx";
 
 function WatchListPage() {
     return (
         <div>
-            <h1>Watch List Page</h1>
+            <WatchListComponent />
         </div>
     );
 }

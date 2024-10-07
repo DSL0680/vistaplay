@@ -1,4 +1,4 @@
-import ContentContextComponent from "../../components/common/ContentContextComponent.tsx";
+import ContentContextComponent from "../../components/contents/ContentContextComponent.tsx";
 
 
 function ContentContextPage() {

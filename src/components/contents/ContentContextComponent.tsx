@@ -18,6 +18,7 @@ const contentInit: IContent = {
 }
 
 const watchInit: IWatch = {
+    tno: 0,
     dueData: '',
     title: '',
     writer: '',
@@ -33,18 +34,20 @@ function ContentContextComponent() {
     const [loading, setLoading] = useState<boolean>(false);
     const [result, setResult] = useState<string>('');
     const [isVideoOpen, setIsVideoOpen] = useState<boolean>(false);
+    const [isWishDuplicate, setIsWishDuplicate] = useState<boolean>(false);
+    const [isWatchAdd, setIsWatchAdd] = useState<boolean>(false);
 
     // dueDate용 날짜 데이터
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // 월을 두 자리로 포맷
-    const day = String(today.getDate()).padStart(2, '0');         // 일을 두 자리로 포맷
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
 
     const formattedDate = `${year}-${month}-${day}`;
 
     useEffect(() => {
 
-        const pnoNum = Number(pno) // 임시 pno
+        const pnoNum = Number(pno)
         setLoading(true);
         getContentOne(pnoNum).then(result => {
             setContent(result);
@@ -75,7 +78,7 @@ function ContentContextComponent() {
         setLoading(true)
         postWatch(watch).then((mno: number) => {
             setResult(mno + "등록 완료")
-
+            setIsWatchAdd(true);
             setLoading(false);
         })
     }
@@ -84,6 +87,7 @@ function ContentContextComponent() {
 
     // 찜하기
     const addToWishCookie = () => {
+        // @ts-ignore
         const wish = typeof cookies.get("wish", {path: "/"}) === "string" ? cookies.get("wish", {path: "/"}) : '';
 
         // 기존 쿠키 문자열을 쉼표로 구분하여 배열로 변환
@@ -98,7 +102,7 @@ function ContentContextComponent() {
 
             console.log("쿠키 업데이트:", updatedWish);
         } else {
-            console.log("해당 pno는 이미 찜 목록에 있습니다.");
+            setIsWishDuplicate(true)
         }
     };
 
@@ -108,7 +112,6 @@ function ContentContextComponent() {
         <>
 
             <div className="relative w-full h-screen bg-[#191b2a] text-white">
-                {/* 자식 div: 70% 영역에 배경 이미지와 그라데이션 적용 */}
                 <div className="absolute right-0 w-[70%] h-full">
                     {/* 배경 이미지 */}
                     <div
@@ -118,7 +121,6 @@ function ContentContextComponent() {
                             backgroundPosition: 'top right',
                         }}
                     >
-                        {/* 그라데이션 위에 덮어씌우기 */}
                         <div className="w-full h-full bg-gradient-to-l from-transparent to-[#191b2a]"></div>
                     </div>
                 </div>
@@ -127,7 +129,7 @@ function ContentContextComponent() {
                 <div
                     className="relative z-10 h-full flex flex-col md:flex-row justify-between p-6 lg:pl-8 lg:pr-8 max-w-7xl mx-auto">
                     {/* 왼쪽 콘텐츠 */}
-                    <div className="flex flex-col justify-start md:w-2/3 space-y-4 mt-32">
+                    <div className="flex flex-col justify-start md:w-2/3 space-y-4 mt-10">
                         <div className="flex items-center w-16 h-6 bg-white/20 justify-center rounded-md">
                             <EyeIcon className="w-4 h-4 mr-2 text-gray-200"/>
                             <span className="text-xs">{content.price}</span>
@@ -160,6 +162,18 @@ function ContentContextComponent() {
                                 <div className="text-sm text-gray-400">찜하기</div>
                             </button>
                         </div>
+
+                        {/* 이미지 목록 */}
+                        <div className="flex flex-wrap gap-2 mt-4 ml-2">
+                            {content.uploadFileNames.slice(1).map((fileName, index) => (
+                                <img
+                                    key={index}
+                                    src={`http://localhost:8091/api/products/view/${fileName}`}
+                                    alt={`Thumbnail ${index + 1}`}
+                                    className="w-24 h-24 object-cover rounded-lg"
+                                />
+                            ))}
+                        </div>
                     </div>
 
                     {/* 우측 포스터 이미지 */}
@@ -189,6 +203,42 @@ function ContentContextComponent() {
                                     title="YouTube video player" frameBorder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 찜하기 중복 시 모달 */}
+            {isWishDuplicate && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white text-black rounded-lg p-8 shadow-lg w-96">
+                        <h2 className="text-xl font-bold mb-4">이미 추가된 항목</h2>
+                        <p className="mb-6">이미 찜 목록에 있는 항목입니다.</p>
+                        <div className="flex justify-end">
+                            <button
+                                onClick={() => setIsWishDuplicate(false)}
+                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                            >
+                                닫기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* 재생목록 추가 후 모달 */}
+            {isWatchAdd && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white text-black rounded-lg p-8 shadow-lg w-96">
+                        <h2 className="text-xl font-bold mb-4">재생목록 추가</h2>
+                        <p className="mb-6">성공적으로 재생목록에 추가되었습니다.</p>
+                        <div className="flex justify-end">
+                            <button
+                                onClick={() => setIsWatchAdd(false)}
+                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                            >
+                                닫기
+                            </button>
                         </div>
                     </div>
                 </div>
