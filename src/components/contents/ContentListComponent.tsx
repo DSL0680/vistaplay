@@ -13,6 +13,8 @@ const initialState: IPageResponse = {
     prev: false,
     next: false,
     totalPages: 0,
+    current:0,
+    keyword: ''
 };
 
 function ContentListComponent() {
@@ -65,15 +67,14 @@ function ContentListComponent() {
                 className="relative border p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 cursor-pointer bg-white flex flex-col justify-end bg-cover bg-center"
                 style={{
                     backgroundImage: `url(http://localhost:8091/api/products/view/${content.uploadFileNames[0]})`,
-                    height: '280px', // 항목 높이 설정
+                    height: '270px', // 항목 높이 설정
                 }}
             >
                 {/* 어두운 오버레이 추가 */}
                 <div className="absolute inset-0 bg-black bg-opacity-10 rounded-lg"></div>
 
-                {/* 텍스트를 오버레이 위에 배치 */}
                 <div
-                    className="relative text-lg font-semibold text-white text-center z-10 bg-black bg-opacity-75 rounded-md p-2">
+                    className="relative text-lg font-semibold text-white text-center bg-black bg-opacity-75 rounded-md p-2">
                     {pname}
                 </div>
 
