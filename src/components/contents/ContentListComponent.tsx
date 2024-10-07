@@ -56,23 +56,27 @@ function ContentListComponent() {
     );
 
     const listLI = filteredList.map((content: IContent) => {
-        const { pno, pname, price } = content;
+        const { pno, pname } = content;
 
         return (
             <div
                 key={pno}
                 onClick={() => moveToRead(pno)}
-                className="border p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 cursor-pointer bg-white flex flex-col justify-between"
+                className="relative border p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 cursor-pointer bg-white flex flex-col justify-end bg-cover bg-center"
+                style={{
+                    backgroundImage: `url(http://localhost:8091/api/products/view/${content.uploadFileNames[0]})`,
+                    height: '280px', // 항목 높이 설정
+                }}
             >
-                <div className="flex justify-center items-center mb-4">
-                    <img
-                        src={`http://localhost:8091/api/products/view/${content.uploadFileNames[0]}`}
-                        alt={pname}
-                        className="w-24 h-24 object-cover rounded-md"
-                    />
+                {/* 어두운 오버레이 추가 */}
+                <div className="absolute inset-0 bg-black bg-opacity-10 rounded-lg"></div>
+
+                {/* 텍스트를 오버레이 위에 배치 */}
+                <div
+                    className="relative text-lg font-semibold text-white text-center z-10 bg-black bg-opacity-75 rounded-md p-2">
+                    {pname}
                 </div>
-                <div className="text-lg font-semibold text-center">{pname}</div>
-                <div className="text-center text-sm text-gray-600 mt-2">조회수: {price}</div>
+
             </div>
         );
     });
@@ -83,29 +87,36 @@ function ContentListComponent() {
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
-            {loading && <LoadingComponent />}
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Content List</h2>
-            <input
-                type="text"
-                placeholder="제목 검색"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="p-2 border rounded mb-4 w-full"
-            />
-            <div className="grid grid-cols-5 gap-4">
-                {listLI}
+            {loading && <LoadingComponent/>}
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Content List</h2>
+                <div className="flex justify-end mb-4">
+                    <input
+                        type="text"
+                        placeholder="제목 검색"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="p-2 border border-blue-500 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+                    />
+                </div>
             </div>
-            <div className="text-center mt-6">
-                <button
-                    onClick={fetchMoreContent}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
-                >
-                    더보기
-                </button>
-            </div>
-            <InfiniteScrollComponent loading={loading} fetchMore={fetchMoreContent} />
-        </div>
-    );
-}
 
-export default ContentListComponent;
+
+                <div className="grid grid-cols-5 gap-6">
+                    {listLI}
+                </div>
+
+                <div className="text-center mt-6">
+                    <button
+                        onClick={fetchMoreContent}
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+                    >
+                        더보기
+                    </button>
+                </div>
+                <InfiniteScrollComponent loading={loading} fetchMore={fetchMoreContent}/>
+            </div>
+            );
+            }
+
+            export default ContentListComponent;
