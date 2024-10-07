@@ -2,9 +2,12 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {IContent} from "../../types/content.ts";
 import {getContentOne} from "../../api/contentAPI.ts";
-import {HeartIcon, PlayIcon, PlusIcon} from '@heroicons/react/solid';
+import {EyeIcon, HeartIcon, PlayIcon, PlusIcon} from '@heroicons/react/solid';
+import {postWatch} from "../../api/watchListAPI.ts";
+import {IWatch} from "../../types/watch.ts";
+import {Cookies} from "react-cookie";
 
-const initialState: IContent = {
+const contentInit: IContent = {
     pno: 0,
     del_flag: false,
     pdesc: '',
@@ -14,13 +17,30 @@ const initialState: IContent = {
     uploadFileNames: [],
 }
 
+const watchInit: IWatch = {
+    dueData: '',
+    title: '',
+    writer: '',
+}
+
 function ContentContextComponent() {
 
     const {pno} = useParams()
 
-    const [content, setContent] = useState<IContent>(initialState)
+    const [content, setContent] = useState<IContent>(contentInit)
+    const [watch, setWatch] = useState<IWatch>({...watchInit})
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [result, setResult] = useState<string>('');
+    const [isVideoOpen, setIsVideoOpen] = useState<boolean>(false);
+
+    // dueDate용 날짜 데이터
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // 월을 두 자리로 포맷
+    const day = String(today.getDate()).padStart(2, '0');         // 일을 두 자리로 포맷
+
+    const formattedDate = `${year}-${month}-${day}`;
 
     useEffect(() => {
 
@@ -28,6 +48,11 @@ function ContentContextComponent() {
         setLoading(true);
         getContentOne(pnoNum).then(result => {
             setContent(result);
+            setWatch({
+                dueDate: formattedDate,
+                title: result.pname,
+                writer: result.pno.toString()
+            });
             setLoading(false);
         })
 
@@ -37,8 +62,51 @@ function ContentContextComponent() {
     const keyword = content.keyword.split(',');
     const gangre = keyword.slice(1).join(', ');
 
+    // 예고편 재생
+    const openVideo = () => {
+        setIsVideoOpen(true)
+    }
+    const closeVideo = () => {
+        setIsVideoOpen(false)
+    }
+
+    // 재생목록 추가
+    const addWatch = () => {
+        setLoading(true)
+        postWatch(watch).then((mno: number) => {
+            setResult(mno + "등록 완료")
+
+            setLoading(false);
+        })
+    }
+
+    const cookies = new Cookies();
+
+    // 찜하기
+    const addToWishCookie = () => {
+        const wish = typeof cookies.get("wish", {path: "/"}) === "string" ? cookies.get("wish", {path: "/"}) : '';
+
+        // 기존 쿠키 문자열을 쉼표로 구분하여 배열로 변환
+        const wishArray = wish ? wish.split(",") : [];
+
+        if (!wishArray.includes(String(pno))) {
+            // 기존 문자열에 쉼표와 함께 새로운 pno 추가
+            const updatedWish = `${wish},${pno}`;
+
+            // 쿠키에 업데이트된 문자열 저장
+            cookies.set("wish", updatedWish, { path: "/", maxAge: 7 * 24 * 60 * 60 });
+
+            console.log("쿠키 업데이트:", updatedWish);
+        } else {
+            console.log("해당 pno는 이미 찜 목록에 있습니다.");
+        }
+    };
+
+
+
     return (
         <>
+
             <div className="relative w-full h-screen bg-[#191b2a] text-white">
                 {/* 자식 div: 70% 영역에 배경 이미지와 그라데이션 적용 */}
                 <div className="absolute right-0 w-[70%] h-full">
@@ -56,9 +124,15 @@ function ContentContextComponent() {
                 </div>
 
                 {/* 콘텐츠 섹션 */}
-                <div className="relative z-10 h-full flex flex-col md:flex-row justify-between p-6 lg:pl-8 lg:pr-8 max-w-7xl mx-auto">
+                <div
+                    className="relative z-10 h-full flex flex-col md:flex-row justify-between p-6 lg:pl-8 lg:pr-8 max-w-7xl mx-auto">
                     {/* 왼쪽 콘텐츠 */}
                     <div className="flex flex-col justify-start md:w-2/3 space-y-4 mt-32">
+                        <div className="flex items-center w-16 h-6 bg-white/20 justify-center rounded-md">
+                            <EyeIcon className="w-4 h-4 mr-2 text-gray-200"/>
+                            <span className="text-xs">{content.price}</span>
+
+                        </div>
                         <h1 className="text-5xl font-bold text-gray-200">{content.pname}</h1>
                         <div className="text-sm text-gray-400">
                             {keyword[0]} | {gangre}
@@ -68,22 +142,27 @@ function ContentContextComponent() {
                         </div>
                         <div className="flex items-center space-x-4 pt-4">
                             <button
+                                onClick={openVideo}
                                 className="flex items-center rounded-lg mr-14">
                                 <PlayIcon className="h-20 w-20 mr-2 text-gray-200"/>
                                 <span className="text-lg text-gray-300">예고편 재생</span>
                             </button>
-                            <button className="flex flex-col items-center text-white rounded-lg">
+                            <button
+                                onClick={addWatch}
+                                className="flex flex-col items-center text-white rounded-lg">
                                 <PlusIcon className="h-8 w-8 mb-1 text-gray-200"/>
                                 <div className="text-sm text-gray-400">재생목록 추가</div>
                             </button>
-                            <button className="flex flex-col items-center text-white rounded-lg">
+                            <button
+                                onClick={addToWishCookie}
+                                className="flex flex-col items-center text-white rounded-lg">
                                 <HeartIcon className="h-8 w-8 mb-1 text-gray-200"/>
                                 <div className="text-sm text-gray-400">찜하기</div>
                             </button>
                         </div>
                     </div>
 
-                    {/* 오른쪽 작은 이미지 */}
+                    {/* 우측 포스터 이미지 */}
                     <div className="hidden md:block md:w-1/4 h-auto mt-10">
                         <img
                             className="w-full h-auto object-cover rounded-lg"
@@ -93,13 +172,29 @@ function ContentContextComponent() {
                     </div>
                 </div>
             </div>
-            {/*<h1>{content.pname}</h1>*/}
-            {/*<div>{keyword[0]} | {gangre}</div>*/}
-            {/*<button><PlayIcon className="h-30 w-30" /><div>예고편 재생</div></button>*/}
-            {/*<button>재생목록 추가</button>*/}
-            {/*<button>찜하기</button>*/}
-            {/*<img src={`http://localhost:8091/api/products/view/${content.uploadFileNames[0]}`} alt={content.pname} />*/}
-            {/*<img src={`http://localhost:8091/api/products/view/${content.uploadFileNames[0]}`} alt={content.pname} />*/}
+            {/* 예고편 모달 */}
+            {isVideoOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+                    <div className="relative bg-gray-950 text-white rounded-lg w-full max-w-3xl overflow-hidden">
+                        <button
+                            onClick={closeVideo}
+                            className="text-2xl absolute top-1 right-3 text-gray-300 hover:text-white"
+                        >
+                            <span className="sr-only">Close</span>
+                            &#x2715;
+                        </button>
+                        <div className="aspect-w-16 aspect-h-9">
+                            <iframe width="100%" height="450"
+                                    src={pdesc[1]}
+                                    title="YouTube video player" frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
         </>
     );
 }

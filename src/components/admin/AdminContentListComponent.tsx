@@ -53,26 +53,17 @@ function AdminContentListComponent() {
 
     // 검색 처리
     const handleSearchClick = () => {
-        if (search.trim() === '') {
-            setFilterdContent(pageResponse.dtoList);
-        } else {
-            setFilterdContent(
-                pageResponse.dtoList.filter(content =>
-                    content.pname.toLowerCase().includes(search.toLowerCase())
-                )
-            );
-            setQuery({
-                page: "1", // 검색 시 첫 페이지로 이동
-                size: String(size),
-                keyword: search.trim(),
-            });
-        }
+
+        setQuery({
+            page: "1", // 검색 시 첫 페이지로 이동
+            size: String(size),
+            keyword: search.trim(),
+        });
     }
 
     // 검색창 초기화
     const handleClearSearch = () => {
         setSearch('');
-        setFilterdContent(pageResponse.dtoList);
         setQuery({
             page: "1", // 검색 초기화 시 첫 페이지로 이동
             size: String(size),

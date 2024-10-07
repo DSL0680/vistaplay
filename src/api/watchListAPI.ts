@@ -1,11 +1,12 @@
 import axios from "axios";
 import {IWatch} from "../types/watch.ts";
+import {IPageReseponse} from "../types/content.ts";
 
 
 const host: string = 'http://localhost:8091/api/todo';
 
 // 감상 목록 조회 (GET)
-export const getWatchList = async (page?: number, size?: number): Promise<IPageResponse> => {
+export const getWatchList = async (page?: number, size?: number): Promise<IPageReseponse> => {
     const pageValue: number = page || 1;
     const sizeValue: number = size || 10;
 
@@ -15,7 +16,7 @@ export const getWatchList = async (page?: number, size?: number): Promise<IPageR
 
 // 감상 목록 추가 (POST)
 export const postWatch = async (watch: IWatch): Promise<number> => {
-    const res = await axios.post(`${host}/todo`, watch);
+    const res = await axios.post(`${host}/`, watch);
     return res.data.mno; // 감상 목록 항목의 ID 반환
 };
 
