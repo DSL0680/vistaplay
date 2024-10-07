@@ -1,11 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { IContent, IPageResponse } from "../../types/content.ts";
 import LoadingComponent from "../common/LoadingComponent.tsx";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { getContentList } from "../../api/contentAPI.ts";
 import InfiniteScrollComponent from "./InfiniteScrollComponent.tsx";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.css';
 
 const initialState: IPageResponse = {
     dtoList: [],
@@ -29,9 +27,6 @@ function ContentListComponent() {
     const [size] = useState<number>(10);
     const [searchTerm, setSearchTerm] = useState<string>("");
 
-    // @ts-ignore
-    const swiperRef = useRef<Swiper | null>(null);
-
     const queryStr = createSearchParams({ page: String(page), size: String(size) });
 
     const fetchContentList = async (page: number) => {
@@ -52,7 +47,6 @@ function ContentListComponent() {
         }
     };
 
-
     useEffect(() => {
         fetchContentList(page);
     }, [page]);
@@ -64,8 +58,10 @@ function ContentListComponent() {
         });
     };
 
+    // keyword가 '영화'라는 단어가 포함된 콘텐츠만 필터링
     const filteredList = pageResponse.dtoList.filter(content =>
-        content.pname.toLowerCase().includes(searchTerm.toLowerCase())
+        content.pname.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        content.keyword.toLowerCase().includes("드라마")
     );
 
     const listLI = filteredList.map((content: IContent) => {
@@ -99,68 +95,8 @@ function ContentListComponent() {
         <div className="p-6 bg-gray-100 min-h-screen">
             {loading && <LoadingComponent />}
 
-            <div className="mb-6 relative">
-                <h3 className="text-xl font-semibold text-gray-700 mb-4">최근 콘텐츠</h3>
-                <Swiper
-                    spaceBetween={30}
-                    slidesPerView={1}
-                    onSwiper={(swiper) => {
-                        swiperRef.current = swiper;
-                    }}
-                    breakpoints={{
-                        1024: {
-                            slidesPerView: 1,
-                        },
-                        768: {
-                            slidesPerView: 1,
-                        }
-                    }}
-                >
-                    {recentContents.slice(0, 5).map((content) => (
-                        <SwiperSlide key={content.pno}>
-                            <div
-                                onClick={() => moveToRead(content.pno)}
-                                className="relative w-full h-full bg-cover bg-center rounded-lg"
-                                style={{
-                                    backgroundImage: `url(http://localhost:8091/api/products/view/${content.uploadFileNames[0]})`,
-                                    backgroundSize: 'contain',
-                                    backgroundPosition: 'center',
-                                    height: '600px',
-                                    width: '100%',
-                                }}
-
-
-                            >
-                                {/* 그라데이션 추가 */}
-                                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#191b2a] rounded-lg"></div>
-
-                                <div className="absolute top-4 left-4 bg-black bg-opacity-75 text-white text-xl font-bold p-2 rounded-md max-w-[60%]">
-                                    {content.pname}
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-
-
-                <div className="absolute top-1/2 left-0 w-full flex justify-between transform -translate-y-1/2 z-10">
-                    <button
-                        onClick={() => swiperRef.current?.slidePrev()}
-                        className="px-4 py-2 bg-black bg-opacity-50 text-white rounded hover:bg-opacity-75 focus:outline-none"
-                    >
-                        ◁
-                    </button>
-                    <button
-                        onClick={() => swiperRef.current?.slideNext()}
-                        className="px-4 py-2 bg-black bg-opacity-50 text-white rounded hover:bg-opacity-75 focus:outline-none"
-                    >
-                        ▷
-                    </button>
-                </div>
-            </div>
-
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Content List</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">드라마</h2>
                 <div className="flex justify-end mb-4">
                     <input
                         type="text"

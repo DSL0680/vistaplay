@@ -17,5 +17,7 @@ export interface IPageResponse {
     size: number,
     prev: boolean,
     next: boolean,
+    current: number,
     totalPages: number,
+    keyword: string,
 }

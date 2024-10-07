@@ -11,6 +11,10 @@ const ContentList = lazy(() => import("../pages/contents/ContentListPage.tsx"))
 const ContentContext = lazy(() => import("../pages/contents/ContentContextPage.tsx"))
 const WatchList = lazy(() => import("../pages/contents/WatchListPage.tsx"))
 const WishList = lazy(() => import("../pages/contents/WishListPage.tsx"))
+const ContentListMovie = lazy(() => import("../pages/contents/ContentListMoviePage.tsx"))
+const ContentListDrama = lazy(() => import("../pages/contents/ContentListDramaPage.tsx"))
+const ContentListEnter = lazy(() => import("../pages/contents/ContentListEnterPage.tsx"))
+const ContentListAni = lazy(() => import("../pages/contents/ContentListAniPage.tsx"))
 
 const contentRouter = createBrowserRouter([
     {
@@ -22,7 +26,7 @@ const contentRouter = createBrowserRouter([
                 element: <Suspense fallback={Loading}><ContentList/></Suspense>
             },
             {
-                path: "context",
+                path: "context/:pno",
                 element: <Suspense fallback={Loading}><ContentContext/></Suspense>
             },
             {
@@ -32,6 +36,22 @@ const contentRouter = createBrowserRouter([
             {
                 path: "wish",
                 element: <Suspense fallback={Loading}><WishList/></Suspense>
+            },
+            {
+                path: "list/movie",
+                element: <Suspense fallback={Loading}><ContentListMovie/></Suspense>
+            },
+            {
+                path: "list/drama",
+                element: <Suspense fallback={Loading}><ContentListDrama/></Suspense>
+            },
+            {
+                path: "list/entertainment",
+                element: <Suspense fallback={Loading}><ContentListEnter/></Suspense>
+            },
+            {
+                path: "list/animations",
+                element: <Suspense fallback={Loading}><ContentListAni/></Suspense>
             },
         ]
     },
