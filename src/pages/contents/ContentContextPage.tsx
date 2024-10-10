@@ -4,7 +4,6 @@ import ContentContextComponent from "../../components/contents/ContentContextCom
 function ContentContextPage() {
     return (
         <div>
-            <h1>Content Context Page</h1>
             <ContentContextComponent />
         </div>
     );

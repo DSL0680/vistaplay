@@ -6,8 +6,6 @@ export interface IContent {
     pname: string,
     price: number,
     keyword: string,
-    files: File[],
-    uploadFileNames: string[]
 }
 
 export interface IPageReseponse {
@@ -17,5 +15,7 @@ export interface IPageReseponse {
     size: number,
     prev: boolean,
     next: boolean,
+    current: number,
     totalPages: number,
+    keyword: string,
 }
