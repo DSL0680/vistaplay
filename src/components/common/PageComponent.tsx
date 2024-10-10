@@ -1,9 +1,9 @@
-import { IPageReseponse } from "../../types/content"; // 페이지 응답 타입
+import { IPageResponse } from "../../types/content"; // 페이지 응답 타입
 import { ReactElement } from "react";
 import { useSearchParams } from "react-router-dom";
 
 interface Props {
-    pageResponse: IPageReseponse;
+    pageResponse: IPageResponse;
 }
 
 function Pagination({ pageResponse }: Props): ReactElement | null {

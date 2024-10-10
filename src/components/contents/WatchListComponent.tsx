@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { getWatchList, putWatch, deleteWatch } from "../../api/watchListAPI.ts"; // deleteWatch 추가
 import { getContentList } from "../../api/contentAPI.ts";
-import { IPageReseponse } from "../../types/content.ts";
+import { IPageResponse } from "../../types/content.ts";
 import { IWatch } from "../../types/watch.ts";
 import { CheckIcon, TrashIcon } from "@heroicons/react/solid";
 
 function WatchListComponent() {
     const [loading, setLoading] = useState<boolean>(false);
-    const [filteredContents, setFilteredContents] = useState<IPageReseponse["dtoList"]>([]);
+    const [filteredContents, setFilteredContents] = useState<IPageResponse["dtoList"]>([]);
     const [watchList, setWatchList] = useState<IWatch[]>([]);
     const [filterType, setFilterType] = useState<string>("전체");
 
