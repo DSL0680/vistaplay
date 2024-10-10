@@ -1,72 +1,66 @@
-import {ReactElement} from "react";
-import {useSearchParams} from "react-router-dom";
-import {IPageResponse} from "../../types/content.ts";
+import { IPageReseponse } from "../../types/content"; // 페이지 응답 타입
+import { ReactElement } from "react";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
-    pageResponse:IPageResponse
-
+    pageResponse: IPageReseponse;
 }
 
-const makeArr = (from:number, to:number): number[] => {
+function Pagination({ pageResponse }: Props): ReactElement | null {
 
-    const arr:number[] = []
-    for (let i = from; i <= to; i++) {
-        arr.push(i)
-    }
-    return arr
-}
+    const [query, setQuery] = useSearchParams();
 
-function PageComponent({pageResponse}: Props): ReactElement {
+    const currentPage = pageResponse.current; // 현재 페이지 번호
+    const pageNumList = pageResponse.pageNumList; // 페이지 번호 리스트
+    const hasPrev = pageResponse.prev;           // 이전 페이지 여부
+    const hasNext = pageResponse.next;           // 다음 페이지 여부
 
-    const current:number = pageResponse.number + 1
-    const tempLast:number = Math.ceil(current/10.0) * 10
-    const startPage:number = tempLast - 9
-    const endPage:number = pageResponse.totalPages < tempLast ? pageResponse.totalPages : tempLast
+    // 페이지 변경 함수
+    const changePage = (pageNum: number) => {
+        query.set("page", String(pageNum));
+        setQuery(query);
+    };
 
-    const prev:boolean = startPage !== 1
-    const next:boolean = endPage < pageResponse.totalPages
-
-    const pageNums:number[] = makeArr(startPage, endPage)
-
-    const [query, setQuery] = useSearchParams()
-
-    const changePage = (pageNum:number) => {
-        query.set("page", String(pageNum))
-        setQuery(query)
-    }
-
-    const lis = pageNums.map( num => <li
-        className='px-4 py-2 text-white bg-blue-500 border border-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300'
-        key={num}
-        onClick={() => changePage(num)}
-    >
-        {num}
-    </li>)
+    const pageButtons = pageNumList.map((num) => (
+        <li
+            key={num}
+            className={`px-2 md:px-3 py-1 text-sm md:text-base ${num === currentPage ? 
+                "text-blue-500 border border-blue-500" : "text-blue-500 bg-white"} 
+                rounded-md hover:bg-blue-600 hover:text-white cursor-pointer`}
+            onClick={() => changePage(num)}
+        >
+            {num}
+        </li>
+    ));
 
     return (
         <div>
-            <ul className='flex justify-center items-center space-x-2 mt-6'>
+            <ul className="flex flex-wrap justify-center items-center space-x-2 mt-4 md:mt-6">
+                {/* Prev 버튼 */}
+                {hasPrev && (
+                    <li
+                        className="px-2 md:px-3 py-1 text-sm md:text-base text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-200 cursor-pointer"
+                        onClick={() => changePage(currentPage - 1)}
+                    >
+                        Prev
+                    </li>
+                )}
 
-                { prev && <li
-                    className='px-4 py-2 text-white bg-blue-500 border border-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300'
-                    key={startPage -1}
-                    onClick={() => changePage(startPage -1)}
-                >
-                    Prev
-                </li>}
+                {/* 페이지 번호 버튼 */}
+                {pageButtons}
 
-                {lis}
-                { next && <li
-                    className='px-4 py-2 text-white bg-blue-500 border border-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300'
-                    key={endPage +1}
-                    onClick={() => changePage(endPage + 1)}
-                >
-                    Next
-                </li>}
-
+                {/* Next 버튼 */}
+                {hasNext && (
+                    <li
+                        className="px-2 md:px-3 py-1 text-sm md:text-base text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-200 cursor-pointer"
+                        onClick={() => changePage(currentPage + 1)}
+                    >
+                        Next
+                    </li>
+                )}
             </ul>
         </div>
     );
 }
 
-export default PageComponent;
+export default Pagination;

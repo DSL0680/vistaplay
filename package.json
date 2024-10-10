@@ -24,6 +24,8 @@
     "redux": "^5.0.1",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.1.14"
+    "redux": "^5.0.1",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

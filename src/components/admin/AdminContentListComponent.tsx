@@ -1,11 +1,11 @@
-import { IContent, IPageResponse } from "../../types/content.ts";
+import { IContent, IPageReseponse } from "../../types/content.ts";
 import { useEffect, useState } from "react";
 import { createSearchParams, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {deleteContentOne, getContentList} from "../../api/contentAPI.ts";
 import {PencilIcon, SearchIcon, TrashIcon, XIcon} from "@heroicons/react/solid";
 import PageComponent from "../common/PageComponent.tsx";
 
-const initialState: IPageResponse = {
+const initialState: IPageReseponse = {
     dtoList: [],
     number: 0,
     pageNumList: [],
@@ -13,7 +13,7 @@ const initialState: IPageResponse = {
     prev: false,
     next: false,
     totalPages: 0,
-    current: 0,
+    current: 1,
     keyword: '',
 };
 
@@ -28,7 +28,7 @@ function AdminContentListComponent() {
 
     const [loading, setLoading] = useState<boolean>(false);
 
-    const [pageResponse, setPageResponse] = useState<IPageResponse>(initialState);
+    const [pageResponse, setPageResponse] = useState<IPageReseponse>(initialState);
 
     const queryStr = createSearchParams({ page: String(page), size: String(size), keyword: keyword });
 
@@ -53,26 +53,17 @@ function AdminContentListComponent() {
 
     // 검색 처리
     const handleSearchClick = () => {
-        if (search.trim() === '') {
-            setFilterdContent(pageResponse.dtoList);
-        } else {
-            setFilterdContent(
-                pageResponse.dtoList.filter(content =>
-                    content.pname.toLowerCase().includes(search.toLowerCase())
-                )
-            );
-            setQuery({
-                page: "1", // 검색 시 첫 페이지로 이동
-                size: String(size),
-                keyword: search.trim(),
-            });
-        }
+
+        setQuery({
+            page: "1", // 검색 시 첫 페이지로 이동
+            size: String(size),
+            keyword: search.trim(),
+        });
     }
 
     // 검색창 초기화
     const handleClearSearch = () => {
         setSearch('');
-        setFilterdContent(pageResponse.dtoList);
         setQuery({
             page: "1", // 검색 초기화 시 첫 페이지로 이동
             size: String(size),
