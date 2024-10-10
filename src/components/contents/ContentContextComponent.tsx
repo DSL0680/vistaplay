@@ -64,7 +64,7 @@ function ContentContextComponent() {
     }, [pno]);
 
     const pdesc = content.pdesc.split(',');
-    const keyword = content.keyword.split(',');
+    const keyword = content.keyword.split('-');
     const gangre = keyword.slice(1).join(', ');
 
     // 예고편 재생

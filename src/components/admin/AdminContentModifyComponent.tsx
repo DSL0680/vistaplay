@@ -156,78 +156,13 @@ function AdminContentModifyComponent() {
             <div className="flex items-center space-x-4">
                 <label className="text-sm font-semibold text-gray-700 mt-4">장르 태그 추가</label>
                 <div className="flex space-x-4">
-                    <select
-                        className="border border-gray-300 rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 shadow-sm"
+                    <input
+                        type="text"
                         name="keyword"
+                        className="flex-1 border border-gray-300 rounded-lg p-3 bg-gray-100 focus:outline-none transition duration-300"
                         value={content.keyword}
-                        onChange={handleChange}
-                    >
-                        <option value="">선택</option>
-
-                        <optgroup label="영화">
-                            <option value="영화 - 액션">액션</option>
-                            <option value="영화 - 코미디">코미디</option>
-                            <option value="영화 - 공상과학">공상과학</option>
-                            <option value="영화 - 로맨스">로맨스</option>
-                            <option value="영화 - 스릴러">스릴러</option>
-                            <option value="영화 - 공포">공포</option>
-                            <option value="영화 - 범죄">범죄</option>
-                            <option value="영화 - 판타지">판타지</option>
-                            <option value="영화 - 가족">가족</option>
-                            <option value="영화 - 모험">모험</option>
-                            <option value="영화 - 전쟁">전쟁</option>
-                            <option value="영화 - 음악">음악</option>
-                            <option value="영화 - 다큐멘터리">다큐멘터리</option>
-                        </optgroup>
-
-                        <optgroup label="드라마">
-                            <option value="드라마 - 액션">액션</option>
-                            <option value="드라마 - 코미디">코미디</option>
-                            <option value="드라마 - 공상과학">공상과학</option>
-                            <option value="드라마 - 로맨스">로맨스</option>
-                            <option value="드라마 - 스릴러">스릴러</option>
-                            <option value="드라마 - 공포">공포</option>
-                            <option value="드라마 - 범죄">범죄</option>
-                            <option value="드라마 - 판타지">판타지</option>
-                            <option value="드라마 - 가족">가족</option>
-                            <option value="드라마 - 모험">모험</option>
-                            <option value="드라마 - 전쟁">전쟁</option>
-                            <option value="드라마 - 음악">음악</option>
-                            <option value="드라마 - 다큐멘터리">다큐멘터리</option>
-                        </optgroup>
-
-                        <optgroup label="예능">
-                            <option value="예능 - 액션">액션</option>
-                            <option value="예능 - 코미디">코미디</option>
-                            <option value="예능 - 공상과학">공상과학</option>
-                            <option value="예능 - 로맨스">로맨스</option>
-                            <option value="예능 - 스릴러">스릴러</option>
-                            <option value="예능 - 공포">공포</option>
-                            <option value="예능 - 범죄">범죄</option>
-                            <option value="예능 - 판타지">판타지</option>
-                            <option value="예능 - 가족">가족</option>
-                            <option value="예능 - 모험">모험</option>
-                            <option value="예능 - 전쟁">전쟁</option>
-                            <option value="예능 - 음악">음악</option>
-                            <option value="예능 - 다큐멘터리">다큐멘터리</option>
-                        </optgroup>
-
-                        <optgroup label="애니메이션">
-                            <option value="애니메이션 - 액션">액션</option>
-                            <option value="애니메이션 - 코미디">코미디</option>
-                            <option value="애니메이션 - 공상과학">공상과학</option>
-                            <option value="애니메이션 - 로맨스">로맨스</option>
-                            <option value="애니메이션 - 스릴러">스릴러</option>
-                            <option value="애니메이션 - 공포">공포</option>
-                            <option value="애니메이션 - 범죄">범죄</option>
-                            <option value="애니메이션 - 판타지">판타지</option>
-                            <option value="애니메이션 - 가족">가족</option>
-                            <option value="애니메이션 - 모험">모험</option>
-                            <option value="애니메이션 - 전쟁">전쟁</option>
-                            <option value="애니메이션 - 음악">음악</option>
-                            <option value="애니메이션 - 다큐멘터리">다큐멘터리</option>
-                        </optgroup>
-                    </select>
+                        readOnly
+                    />
                 </div>
             </div>
 
