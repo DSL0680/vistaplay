@@ -5,7 +5,7 @@ import {getContentOne} from "../../api/contentAPI.ts";
 import {EyeIcon, HeartIcon, PlayIcon, PlusIcon} from '@heroicons/react/solid';
 import {postWatch} from "../../api/watchListAPI.ts";
 import {IWatch} from "../../types/watch.ts";
-import {Cookies} from "react-cookie";
+import useWishlist from '../../hooks/useWishlist' // 커스텀 훅 import
 
 const contentInit: IContent = {
     pno: 0,
@@ -36,6 +36,8 @@ function ContentContextComponent() {
     const [isVideoOpen, setIsVideoOpen] = useState<boolean>(false);
     const [isWishDuplicate, setIsWishDuplicate] = useState<boolean>(false);
     const [isWatchAdd, setIsWatchAdd] = useState<boolean>(false);
+
+    const { addToWishlistCookie } = useWishlist() // useWishlist 훅 사용
 
     // dueDate용 날짜 데이터
     const today = new Date();
@@ -83,28 +85,10 @@ function ContentContextComponent() {
         })
     }
 
-    const cookies = new Cookies();
-
-    // 찜하기
-    const addToWishCookie = () => {
-        // @ts-ignore
-        const wish = typeof cookies.get("wish", {path: "/"}) === "string" ? cookies.get("wish", {path: "/"}) : '';
-
-        // 기존 쿠키 문자열을 쉼표로 구분하여 배열로 변환
-        const wishArray = wish ? wish.split(",") : [];
-
-        if (!wishArray.includes(String(pno))) {
-            // 기존 문자열에 쉼표와 함께 새로운 pno 추가
-            const updatedWish = `${wish},${pno}`;
-
-            // 쿠키에 업데이트된 문자열 저장
-            cookies.set("wish", updatedWish, { path: "/", maxAge: 7 * 24 * 60 * 60 });
-
-            console.log("쿠키 업데이트:", updatedWish);
-        } else {
-            setIsWishDuplicate(true)
-        }
-    };
+    // 찜하기 버튼 클릭 핸들러
+    const handleWishlistClick = () => {
+        addToWishlistCookie(content.pno) // 위시리스트에 콘텐츠 추가
+    }
 
 
 
@@ -156,7 +140,7 @@ function ContentContextComponent() {
                                 <div className="text-sm text-gray-400">재생목록 추가</div>
                             </button>
                             <button
-                                onClick={addToWishCookie}
+                                onClick={handleWishlistClick}
                                 className="flex flex-col items-center text-white rounded-lg">
                                 <HeartIcon className="h-8 w-8 mb-1 text-gray-200"/>
                                 <div className="text-sm text-gray-400">찜하기</div>

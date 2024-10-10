@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store'
 import { addToWishlistRedux} from '../slices/wishlistSlice'
 
+
 function useWishlist() {
     const [cookies, setCookie, removeCookie] = useCookies(['wishlist'])
     const dispatch = useDispatch()

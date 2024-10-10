@@ -1,6 +1,6 @@
 import { useEffect, useState, ChangeEvent } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getContentOne, putContentOne, deleteContentOne } from "../../api/contentAPI"
+import { getContentOne, putContentOne} from "../../api/contentAPI"
 import { IContent } from "../../types/content"
 import LoadingComponent from "../common/LoadingComponent"
 import ResultModal from "../common/ResultModal"
@@ -43,7 +43,28 @@ function AdminContentModifyComponent() {
     // 입력 값 변경 핸들러
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
-        setContent(prevState => ({ ...prevState, [name]: value }))
+        if (name === 'keyword') {
+            const [type, genre] = value.split('-');
+            setContent(prevContent => ({
+                ...prevContent,
+                type,
+                genre,
+                keyword: value
+            }));
+        } else if (name === 'pdesc') {
+            const [ex, link] = value.split(',');
+            setContent(prevContent => ({
+                ...prevContent,
+                ex,
+                link,
+                pdesc: value
+            }));
+        } else {
+            setContent(prevContent => ({
+                ...prevContent,
+                [name]: value,
+            }));
+        }
     }
 
     // 파일 입력 핸들러 - 파일을 선택하면 미리보기로 보여줍니다.
@@ -69,15 +90,14 @@ function AdminContentModifyComponent() {
         if (!file) {
             // 파일이 새로 선택되지 않았을 때는 기존 파일 이름을 전송
             if (content.uploadFileNames.length > 0) {
-                content.uploadFileNames.map((fileName, index) => {
-                    formData.append(`existingFiles[${index}]`, fileName) // 기존 파일 이름 전송
+                content.uploadFileNames.forEach((fileName) => {
+                    formData.append(`uploadFileNames`, fileName) // 기존 파일 이름 전송
                 })
             }
         } else {
             // 새로 선택된 파일이 있을 때만 파일 전송
             formData.append("files", file) // 새 파일만 업로드
         }
-
         // API 호출
         putContentOne(Number(pno), formData).then(() => {
             setResult(`${pno} 수정되었습니다.`)
@@ -88,24 +108,11 @@ function AdminContentModifyComponent() {
         })
     }
 
-    // 삭제 처리
-    const handleClickDelete = () => {
-        setLoading(true)
-        deleteContentOne(Number(pno)).then(data => {
-            if (data.result === 'success') {
-                setResult(`${pno} 삭제되었습니다.`)
-            }
-            setLoading(false)
-        }).catch(() => {
-            alert("삭제 중 오류가 발생했습니다.")
-            setLoading(false)
-        })
-    }
 
     // 결과 모달 닫기 핸들러
     const closeCallback = () => {
         setResult('') // 모달 닫기 후 메시지 초기화
-        navigate("/admin/content/list") // 수정 후 목록 페이지로 이동
+        navigate("/admin/list") // 수정 후 목록 페이지로 이동
     }
 
     return (
@@ -147,30 +154,79 @@ function AdminContentModifyComponent() {
             </div>
 
             <div className="flex items-center space-x-4">
-                <label className="w-1/5 text-sm font-semibold text-gray-700">타입&장르</label>
-                <div className="flex items-center space-x-4">
+                <label className="text-sm font-semibold text-gray-700 mt-4">장르 태그 추가</label>
+                <div className="flex space-x-4">
                     <select
-                        className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+                        className="border border-gray-300 rounded-lg p-2 w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 shadow-sm"
                         name="keyword"
                         value={content.keyword}
                         onChange={handleChange}
                     >
-                        <option value="">타입 장르</option>
-                        <option value="영화 - 액션">영화 - 액션</option>
-                        <option value="영화 - 코미디">영화 - 코미디</option>
-                        <option value="영화 - 공포">영화 - 공포</option>
-                        <option value="영화 - 가족">영화 - 가족</option>
-                        <option value="드라마 - 로맨스">드라마 - 로맨스</option>
-                        <option value="드라마 - 모험">드라마 - 모험</option>
-                        <option value="드라마 - 범죄">드라마 - 범죄</option>
-                        <option value="예능 - 음악">예능 - 음악</option>
-                        <option value="예능 - 스릴러">예능 - 스릴러</option>
-                        <option value="애니메이션 - 공상과학">애니메이션 - 공상과학</option>
-                        <option value="애니메이션 - 판타지">애니메이션 - 판타지</option>
-                        <option value="애니메이션 - 전쟁">애니메이션 - 전쟁</option>
-                        <option value="다큐멘터리 - 액션">다큐멘터리 - 액션</option>
-                        <option value="다큐멘터리 - 코미디">다큐멘터리 - 코미디</option>
-                        <option value="다큐멘터리 - 스릴러">다큐멘터리 - 스릴러</option>
+                        <option value="">선택</option>
+
+                        <optgroup label="영화">
+                            <option value="영화 - 액션">액션</option>
+                            <option value="영화 - 코미디">코미디</option>
+                            <option value="영화 - 공상과학">공상과학</option>
+                            <option value="영화 - 로맨스">로맨스</option>
+                            <option value="영화 - 스릴러">스릴러</option>
+                            <option value="영화 - 공포">공포</option>
+                            <option value="영화 - 범죄">범죄</option>
+                            <option value="영화 - 판타지">판타지</option>
+                            <option value="영화 - 가족">가족</option>
+                            <option value="영화 - 모험">모험</option>
+                            <option value="영화 - 전쟁">전쟁</option>
+                            <option value="영화 - 음악">음악</option>
+                            <option value="영화 - 다큐멘터리">다큐멘터리</option>
+                        </optgroup>
+
+                        <optgroup label="드라마">
+                            <option value="드라마 - 액션">액션</option>
+                            <option value="드라마 - 코미디">코미디</option>
+                            <option value="드라마 - 공상과학">공상과학</option>
+                            <option value="드라마 - 로맨스">로맨스</option>
+                            <option value="드라마 - 스릴러">스릴러</option>
+                            <option value="드라마 - 공포">공포</option>
+                            <option value="드라마 - 범죄">범죄</option>
+                            <option value="드라마 - 판타지">판타지</option>
+                            <option value="드라마 - 가족">가족</option>
+                            <option value="드라마 - 모험">모험</option>
+                            <option value="드라마 - 전쟁">전쟁</option>
+                            <option value="드라마 - 음악">음악</option>
+                            <option value="드라마 - 다큐멘터리">다큐멘터리</option>
+                        </optgroup>
+
+                        <optgroup label="예능">
+                            <option value="예능 - 액션">액션</option>
+                            <option value="예능 - 코미디">코미디</option>
+                            <option value="예능 - 공상과학">공상과학</option>
+                            <option value="예능 - 로맨스">로맨스</option>
+                            <option value="예능 - 스릴러">스릴러</option>
+                            <option value="예능 - 공포">공포</option>
+                            <option value="예능 - 범죄">범죄</option>
+                            <option value="예능 - 판타지">판타지</option>
+                            <option value="예능 - 가족">가족</option>
+                            <option value="예능 - 모험">모험</option>
+                            <option value="예능 - 전쟁">전쟁</option>
+                            <option value="예능 - 음악">음악</option>
+                            <option value="예능 - 다큐멘터리">다큐멘터리</option>
+                        </optgroup>
+
+                        <optgroup label="애니메이션">
+                            <option value="애니메이션 - 액션">액션</option>
+                            <option value="애니메이션 - 코미디">코미디</option>
+                            <option value="애니메이션 - 공상과학">공상과학</option>
+                            <option value="애니메이션 - 로맨스">로맨스</option>
+                            <option value="애니메이션 - 스릴러">스릴러</option>
+                            <option value="애니메이션 - 공포">공포</option>
+                            <option value="애니메이션 - 범죄">범죄</option>
+                            <option value="애니메이션 - 판타지">판타지</option>
+                            <option value="애니메이션 - 가족">가족</option>
+                            <option value="애니메이션 - 모험">모험</option>
+                            <option value="애니메이션 - 전쟁">전쟁</option>
+                            <option value="애니메이션 - 음악">음악</option>
+                            <option value="애니메이션 - 다큐멘터리">다큐멘터리</option>
+                        </optgroup>
                     </select>
                 </div>
             </div>
@@ -222,7 +278,7 @@ function AdminContentModifyComponent() {
                 <button
                     type="button"
                     className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300"
-                    onClick={() => navigate("/admin/content/list")}
+                    onClick={() => navigate("/admin/list")}
                 >
                     LIST
                 </button>
@@ -233,14 +289,6 @@ function AdminContentModifyComponent() {
                     onClick={handleClickModify}
                 >
                     MODIFY
-                </button>
-
-                <button
-                    type="button"
-                    className="bg-red-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300"
-                    onClick={handleClickDelete}
-                >
-                    DELETE
                 </button>
             </div>
         </div>
