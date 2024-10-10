@@ -10,7 +10,7 @@ export interface IContent {
     uploadFileNames: string[]
 }
 
-export interface IPageReponse {
+export interface IPageResponse {
     dtoList: IContent[],
     number: number,
     pageNumList: number[],
