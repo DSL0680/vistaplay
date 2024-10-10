@@ -23,8 +23,7 @@
     "recoil": "^0.7.7",
     "redux": "^5.0.1",
     "slick-carousel": "^1.8.1",
-    "swiper": "^11.1.14"
-    "redux": "^5.0.1",
+    "swiper": "^11.1.14",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {

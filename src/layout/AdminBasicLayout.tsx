@@ -92,7 +92,6 @@ function AdminBasicLayout({children}: {children: React.ReactNode}): ReactElement
                             </Link>
                             <Link to="/admin/chart"
                                   className="flex items-center space-x-2 p-2 hover:bg-blue-500 rounded-md">
-                                <ChartBarIcon className="h-5 w-5"/>
                                 <span>통계</span>
                             </Link>
                         </nav>
