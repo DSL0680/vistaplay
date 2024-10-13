@@ -1,5 +1,5 @@
 import React, {ReactElement, useState} from "react";
-import {DocumentTextIcon, PlusCircleIcon} from "@heroicons/react/solid";
+import {DocumentTextIcon} from "@heroicons/react/solid";
 import {Link} from "react-router-dom";
 
 function AdminBasicLayout({children}: {children: React.ReactNode}): ReactElement {
@@ -18,7 +18,7 @@ function AdminBasicLayout({children}: {children: React.ReactNode}): ReactElement
                         {/* Logo */}
                         <div className="flex-shrink-0">
                             <Link to="/" className="text-2xl font-bold text-blue-600">
-                                MyTODO
+                                VistaPlay Admin
                             </Link>
                         </div>
 

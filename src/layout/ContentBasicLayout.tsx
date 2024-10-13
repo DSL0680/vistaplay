@@ -77,18 +77,23 @@ function ContentBasicLayout({ children, onSearch }: { children: React.ReactNode,
                             onChange={handleSearch}  // 입력값 변경 시 검색 처리
                         />
 
-                        <button
-                            type="button"
-                            className="text-sm font-semibold leading-6 text-white bg-blue-800 px-4 py-2 rounded-lg hover:bg-blue-700"
-                        >
-                            시청기록
-                        </button>
-                        <button
-                            type="button"
-                            className="text-sm font-semibold leading-6 text-blue-800 px-4 py-2 border border-blue-800 rounded-lg hover:bg-blue-100"
-                        >
-                            찜 목록
-                        </button>
+
+                        <Link to="/watch">
+                            <button
+                                type="button"
+                                className="w-full mt-2 text-sm font-semibold leading-6 text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700"
+                            >
+                                시청기록
+                            </button>
+                        </Link>
+                        <Link to="/wish">
+                            <button
+                                type="button"
+                                className="w-full mt-2 text-sm font-semibold leading-6 text-indigo-600 px-4 py-2 border border-indigo-600 rounded-lg hover:bg-indigo-100"
+                            >
+                                찜 목록
+                            </button>
+                        </Link>
                     </div>
                 </nav>
 
@@ -116,18 +121,18 @@ function ContentBasicLayout({ children, onSearch }: { children: React.ReactNode,
                             <div className="mt-6 flow-root">
                                 <div className="-my-6 divide-y divide-gray-500/10">
                                     <div className="space-y-2 py-6">
-                                        <a href="#" className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                        <Link to="/list/movie" className="text-sm font-semibold leading-6 text-gray-900">
                                             영화
-                                        </a>
-                                        <a href="#" className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                        </Link>
+                                        <Link to="/list/drama" className="text-sm font-semibold leading-6 text-gray-900">
                                             드라마
-                                        </a>
-                                        <a href="#" className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                        </Link>
+                                        <Link to="/list/entertainment" className="text-sm font-semibold leading-6 text-gray-900">
                                             예능
-                                        </a>
-                                        <a href="#" className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                        </Link>
+                                        <Link to="/list/animations" className="text-sm font-semibold leading-6 text-gray-900">
                                             애니
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div className="py-6">
                                         {/* 모바일 검색창 */}
@@ -138,19 +143,19 @@ function ContentBasicLayout({ children, onSearch }: { children: React.ReactNode,
                                             value={searchTerm}  // 검색 상태 반영
                                             onChange={handleSearch}  // 모바일에서도 검색 처리
                                         />
-                                        {/* 두 개의 버튼 */}
-                                        <button
-                                            type="button"
-                                            className="w-full mt-4 text-sm font-semibold leading-6 text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700"
+                                        <Link
+                                            to="/watch"
+                                            className="w-full mt-4 text-sm font-semibold leading-6 text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700 text-center block"
                                         >
                                             시청기록
-                                        </button>
-                                        <button
-                                            type="button"
-                                            className="w-full mt-2 text-sm font-semibold leading-6 text-indigo-600 px-4 py-2 border border-indigo-600 rounded-lg hover:bg-indigo-100"
+                                        </Link>
+                                        <Link
+                                            to="/wish"
+                                            className="w-full mt-2 text-sm font-semibold leading-6 text-indigo-600 px-4 py-2 border border-indigo-600 rounded-lg hover:bg-indigo-100 text-center block"
                                         >
                                             찜 목록
-                                        </button>
+                                        </Link>
+
                                     </div>
                                 </div>
                             </div>
