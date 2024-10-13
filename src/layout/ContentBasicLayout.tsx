@@ -2,24 +2,18 @@ import React, {ReactElement, useState} from "react";
 import {Link} from "react-router-dom";
 
 
-function ContentBasicLayout({ children, onSearch }: { children: React.ReactNode, onSearch: (term: string) => void }): ReactElement {
+function ContentBasicLayout({ children }: { children: React.ReactNode }): ReactElement {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");  // 검색 상태 추가
 
     const toggleMenu = () => {
         setIsMenuOpen((prev) => !prev);
     };
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(e.target.value);
-        onSearch(e.target.value);  // 검색어를 상위 컴포넌트로 전달
-    };
-
 
     return (
         <div>
-            <header className="bg-white">
-                <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+            <header className="bg-white w-full">
+                <nav className="w-[90%] mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                     <div className="flex mr-10">
                         <Link to="/list" className="-m-1.5 p-1.5">
                             <span className="sr-only">Your Company</span>
@@ -67,16 +61,8 @@ function ContentBasicLayout({ children, onSearch }: { children: React.ReactNode,
                         </Link>
                     </div>
 
-                    {/* 검색창과 두 개의 버튼 */}
+                    {/* 시청기록, 찜목록 */}
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
-                        <input
-                            type="text"
-                            className="w-64 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="Search..."
-                            value={searchTerm}  // 검색 상태 반영
-                            onChange={handleSearch}  // 입력값 변경 시 검색 처리
-                        />
-
 
                         <Link to="/watch">
                             <button
@@ -118,31 +104,25 @@ function ContentBasicLayout({ children, onSearch }: { children: React.ReactNode,
                                     </svg>
                                 </button>
                             </div>
-                            <div className="mt-6 flow-root">
+                            <div className="mt-6">
                                 <div className="-my-6 divide-y divide-gray-500/10">
-                                    <div className="space-y-2 py-6">
-                                        <Link to="/list/movie" className="text-sm font-semibold leading-6 text-gray-900">
+                                    <div className="py-6 space-y-2">
+                                        <Link to="/list/movie" className="block text-sm font-semibold leading-6 text-gray-900">
                                             영화
                                         </Link>
-                                        <Link to="/list/drama" className="text-sm font-semibold leading-6 text-gray-900">
+                                        <Link to="/list/drama" className="block text-sm font-semibold leading-6 text-gray-900">
                                             드라마
                                         </Link>
-                                        <Link to="/list/entertainment" className="text-sm font-semibold leading-6 text-gray-900">
+                                        <Link to="/list/entertainment" className="block text-sm font-semibold leading-6 text-gray-900">
                                             예능
                                         </Link>
-                                        <Link to="/list/animations" className="text-sm font-semibold leading-6 text-gray-900">
+                                        <Link to="/list/animations" className="block text-sm font-semibold leading-6 text-gray-900">
                                             애니
                                         </Link>
                                     </div>
+
                                     <div className="py-6">
-                                        {/* 모바일 검색창 */}
-                                        <input
-                                            type="text"
-                                            className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                            placeholder="Search..."
-                                            value={searchTerm}  // 검색 상태 반영
-                                            onChange={handleSearch}  // 모바일에서도 검색 처리
-                                        />
+
                                         <Link
                                             to="/watch"
                                             className="w-full mt-4 text-sm font-semibold leading-6 text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700 text-center block"
@@ -155,13 +135,13 @@ function ContentBasicLayout({ children, onSearch }: { children: React.ReactNode,
                                         >
                                             찜 목록
                                         </Link>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
+
             </header>
             <div className="bg-gray-100">{children}</div>
         </div>
