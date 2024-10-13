@@ -20,12 +20,14 @@ const initialState: IPageResponse = {
 function ContentListComponent() {
     const [loading, setLoading] = useState<boolean>(false);
     const [pageResponse, setPageResponse] = useState(initialState);
+    // @ts-ignore
     const [recentContents, setRecentContents] = useState<IContent[]>([]);
     const navigate = useNavigate();
 
     const [page, setPage] = useState<number>(1);
     const [size] = useState<number>(10);
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const [hasMore, setHasMore] = useState(true);
 
     const queryStr = createSearchParams({ page: String(page), size: String(size) });
 
@@ -33,14 +35,22 @@ function ContentListComponent() {
         setLoading(true);
         try {
             const data = await getContentList(page, size);
+
+            // 기존 데이터를 유지하면서 새로 불러온 데이터를 추가
             setPageResponse((prev) => ({
                 ...data,
                 dtoList: [...prev.dtoList, ...data.dtoList]
             }));
 
+            // 페이지가 1일 경우, 최근 콘텐츠 목록을 설정
             if (page === 1) {
                 const newContents = data.dtoList.slice(0, 5);
                 setRecentContents(newContents);
+            }
+
+            // 가져온 데이터의 길이가 size보다 작다면 더 이상 불러올 데이터가 없음
+            if (data.dtoList.length < size) {
+                setHasMore(false);  // 더 이상 불러올 데이터가 없음을 설정
             }
         } finally {
             setLoading(false);
@@ -120,7 +130,7 @@ function ContentListComponent() {
                     더보기
                 </button>
             </div>
-            <InfiniteScrollComponent loading={loading} fetchMore={fetchMoreContent} />
+            <InfiniteScrollComponent loading={loading} fetchMore={fetchMoreContent} hasMore={hasMore} />
         </div>
     );
 }
