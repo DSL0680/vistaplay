@@ -23,14 +23,14 @@ function WatchListComponent() {
         // bad code
         const allContentData = await getContentList(1, 1000);
         const matchedContents = allContentData.dtoList.filter((content) =>
-            writerNumbers.includes(content.pno)
+            writerNumbers.includes(content.pno as number)
         );
 
         setFilteredContents(matchedContents); // 필터링된 콘텐츠 저장
         setLoading(false);
     };
 
-    const handleComplete = async (pno) => {
+    const handleComplete = async (pno: number | undefined) => {
         const targetWatch = watchList.find((watch) => Number(watch.writer) === pno);
 
         if (targetWatch) {
@@ -45,7 +45,7 @@ function WatchListComponent() {
         }
     };
 
-    const handleDelete = async (pno) => {
+    const handleDelete = async (pno: number | undefined) => {
         const targetWatch = watchList.find((watch) => Number(watch.writer) === pno);
 
         if (targetWatch) {

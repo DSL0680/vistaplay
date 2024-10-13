@@ -1,4 +1,5 @@
 export interface IWatch {
+    complete: boolean;
     tno: number
     dueData: string,
     title: string,
