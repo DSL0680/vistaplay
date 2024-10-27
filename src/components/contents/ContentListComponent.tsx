@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { IContent, IPageResponse } from "../../types/content.ts";
 import LoadingComponent from "../common/LoadingComponent.tsx";
 import { createSearchParams, useNavigate } from "react-router-dom";
@@ -7,8 +7,6 @@ import InfiniteScrollComponent from "./InfiniteScrollComponent.tsx";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import {
-    ArrowDownIcon,
-    ArrowRightIcon,
     ChevronDownIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
